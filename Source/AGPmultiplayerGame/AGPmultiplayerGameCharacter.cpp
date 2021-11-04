@@ -10,6 +10,9 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
+#include "DrawDebugHelpers.h"
+#include "Engine/World.h"
+
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -82,6 +85,8 @@ AAGPmultiplayerGameCharacter::AAGPmultiplayerGameCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+
+	grabDistance = 500.0f;
 }
 
 void AAGPmultiplayerGameCharacter::BeginPlay()
@@ -136,6 +141,9 @@ void AAGPmultiplayerGameCharacter::SetupPlayerInputComponent(class UInputCompone
 	PlayerInputComponent->BindAxis("TurnRate", this, &AAGPmultiplayerGameCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AAGPmultiplayerGameCharacter::LookUpAtRate);
+
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AAGPmultiplayerGameCharacter::Interact);
+
 }
 
 void AAGPmultiplayerGameCharacter::OnFire()
@@ -297,4 +305,16 @@ bool AAGPmultiplayerGameCharacter::EnableTouchscreenMovement(class UInputCompone
 	}
 	
 	return false;
+}
+
+void AAGPmultiplayerGameCharacter::Interact()
+{
+	FVector startLoc = GetFirstPersonCameraComponent()->GetComponentLocation();
+	FVector endLoc = startLoc + GetFirstPersonCameraComponent()->GetForwardVector() * grabDistance;
+	FCollisionQueryParams TraceParams(FName(TEXT("PickingTrace")), true, this);
+	TraceParams.bTraceComplex = true;
+
+	GetWorld()->LineTraceSingleByChannel(objHit, startLoc, endLoc, ECC_Visibility, TraceParams); //trace 
+	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Blue, false, 1.0f, 0, 2.0f);
+
 }
