@@ -148,9 +148,18 @@ public:
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pickup)
+		class APickupBase* currPickup;
 
+	UPROPERTY(BlueprintReadWrite)
+	float health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pickup)
+	float currScore;
 
 	void Interact();
+	void UsePickup();
+	void GrabPickup(class APickupBase* pb);
 
 };
 

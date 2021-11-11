@@ -11,8 +11,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Engine/Engine.h" //for log & debug msg
 #include "Engine/World.h"
-
+#include "PickupBase.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -143,6 +144,7 @@ void AAGPmultiplayerGameCharacter::SetupPlayerInputComponent(class UInputCompone
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AAGPmultiplayerGameCharacter::LookUpAtRate);
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AAGPmultiplayerGameCharacter::Interact);
+	PlayerInputComponent->BindAction("UsePickup", IE_Pressed, this, &AAGPmultiplayerGameCharacter::UsePickup);
 
 }
 
@@ -317,4 +319,20 @@ void AAGPmultiplayerGameCharacter::Interact()
 	GetWorld()->LineTraceSingleByChannel(objHit, startLoc, endLoc, ECC_Visibility, TraceParams); //trace 
 	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Blue, false, 1.0f, 0, 2.0f);
 
+}
+
+void AAGPmultiplayerGameCharacter::UsePickup()
+{
+	if (currPickup)
+
+		currPickup->UsePickup();
+}
+
+void AAGPmultiplayerGameCharacter::GrabPickup(APickupBase* pb)
+{
+	if (!currPickup && pb)
+	{
+		currPickup = pb;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, pb->GetName());
+	}
 }
