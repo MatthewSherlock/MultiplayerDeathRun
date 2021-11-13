@@ -14,6 +14,8 @@
 #include "Engine/Engine.h" //for log & debug msg
 #include "Engine/World.h"
 #include "PickupBase.h"
+#include "TrapBase.h"
+#include "TrapButton.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -318,6 +320,12 @@ void AAGPmultiplayerGameCharacter::Interact()
 
 	GetWorld()->LineTraceSingleByChannel(objHit, startLoc, endLoc, ECC_Visibility, TraceParams); //trace 
 	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Blue, false, 1.0f, 0, 2.0f);
+	ATrapButton* button = Cast<ATrapButton>(objHit.Actor);
+	if (button)
+	{
+		button->ActivateTrap();
+	}
+
 
 }
 

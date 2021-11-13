@@ -42,13 +42,15 @@ void ASpeedPickup::UsePickup()
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
 		stdWalkSpeed = chr->GetCharacterMovement()->MaxWalkSpeed;
 		chr->GetCharacterMovement()->MaxWalkSpeed = chr->GetCharacterMovement()->MaxWalkSpeed + speedAmount;
-		FTimerHandle endBuff;
-		GetWorldTimerManager().SetTimer(endBuff, this, &ASpeedPickup::PickupEnd, 5.0f, false);
+		FTimerHandle endEffect;
+		GetWorldTimerManager().SetTimer(endEffect, this, &ASpeedPickup::PickupEnd, 2.0f, false);
 	}
 }
 
 void ASpeedPickup::PickupEnd()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "TimerEnd");
+
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (chr)
 	{
