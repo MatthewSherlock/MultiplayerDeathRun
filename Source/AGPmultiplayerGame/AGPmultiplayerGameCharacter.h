@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "PushWall.h"
 #include "AGPmultiplayerGameCharacter.generated.h"
 
 class UInputComponent;
@@ -158,6 +159,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pickup)
 	float currScore;
+
+	bool hasWon;
 
 	void Interact();
 	void UsePickup();

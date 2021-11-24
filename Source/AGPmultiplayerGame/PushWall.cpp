@@ -34,13 +34,21 @@ void APushWall::UseTrap()
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, this->GetName());
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
 
+	FVector currPos = GetActorLocation();
+
 	isMoving = true;
 	//FVector startLoc = GetActorLocation();
 	//FVector endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z);
 	//FMath::VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f);
 	//SetActorLocation(FVector(GetActorLocation().X, VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f));
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
-
+	/*
+	if (GetLocalRole() == ROLE_Authority) {
+		MC_UseTrap(currPos);  //update trap pos 
+	}
+	else
+		ServerUseTrap(currPos);
+		*/
 }
 
 void APushWall::Tick(float DeltaTime)
@@ -59,5 +67,33 @@ void APushWall::Tick(float DeltaTime)
 
 void APushWall::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
 
+	if (chr)
+	{
+	}
 }
+/*
+void APushWall::MC_UpdateTrapPos_Implementation(const FVector& newLoc)
+{
+	SetActorLocation(newLoc); //replic movement must be on!
+}
+
+void APushWall::MC_UseTrap(const FVector& newLoc)
+{
+}
+
+void APushWall::MC_UseTrap_Implementation(const FVector& newLoc)
+{
+	MC_UpdateTrapPos(newLoc);
+}
+
+void APushWall::ServerUseTrap(const FVector& newLoc)
+{
+}
+
+void APushWall::ServerUseTrap_Implementation(const FVector& newLoc)
+{
+	MC_UseTrap(newLoc);
+}
+*/

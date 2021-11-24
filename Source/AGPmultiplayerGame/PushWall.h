@@ -21,7 +21,18 @@ public:
 
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	/*
+	UFUNCTION(NetMulticast, Reliable)
+		void MC_UpdateTrapPos(const FVector& newLoc);
+	void MC_UpdateTrapPos_Implementation(const FVector& newLoc);
 	
+	UFUNCTION(NetMulticast, Reliable)
+		void MC_UseTrap(const FVector& newLoc);
+	void MC_UseTrap_Implementation(const FVector& newLoc);
+	UFUNCTION(Server, Reliable)
+		void ServerUseTrap(const FVector& newLoc);
+	void ServerUseTrap_Implementation(const FVector& newLoc);
+	*/
 	UPROPERTY(EditDefaultsOnly, Category = HitEffects)
 		USoundBase* trapSound;
 
