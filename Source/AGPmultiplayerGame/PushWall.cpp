@@ -73,27 +73,22 @@ void APushWall::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimiti
 	{
 	}
 }
-/*
+
 void APushWall::MC_UpdateTrapPos_Implementation(const FVector& newLoc)
 {
 	SetActorLocation(newLoc); //replic movement must be on!
 }
 
-void APushWall::MC_UseTrap(const FVector& newLoc)
-{
-}
 
 void APushWall::MC_UseTrap_Implementation(const FVector& newLoc)
 {
 	MC_UpdateTrapPos(newLoc);
 }
 
-void APushWall::ServerUseTrap(const FVector& newLoc)
-{
-}
+
 
 void APushWall::ServerUseTrap_Implementation(const FVector& newLoc)
 {
-	MC_UseTrap(newLoc);
+	MC_UpdateTrapPos(newLoc);
 }
-*/
+
