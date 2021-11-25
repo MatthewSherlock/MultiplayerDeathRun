@@ -24,7 +24,7 @@ void ACrushTrap::BeginPlay()
 {
 	Super::BeginPlay();
 	staticMesh->OnComponentHit.AddDynamic(this, &ACrushTrap::OnHit);
-	endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y), GetActorLocation().Z - 100);
+	endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y), GetActorLocation().Z - 300);
 
 }
 
@@ -64,5 +64,9 @@ void ACrushTrap::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimit
 
 	if (chr)
 	{
+		if (instantKill)
+		{
+			chr->Destroy();
+		}
 	}
 }

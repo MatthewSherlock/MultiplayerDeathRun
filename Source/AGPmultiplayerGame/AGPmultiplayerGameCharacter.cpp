@@ -323,7 +323,14 @@ void AAGPmultiplayerGameCharacter::Interact()
 	ATrapButton* button = Cast<ATrapButton>(objHit.Actor);
 	if (button)
 	{
-		button->ActivateTrap();
+		if (IsLocallyControlled())
+			if (GetLocalRole() == ROLE_Authority)
+			{
+				MC_ActivateTrap(button);
+			}
+			else
+				ServerActivateTrap(button);
+
 	}
 
 
@@ -343,5 +350,20 @@ void AAGPmultiplayerGameCharacter::GrabPickup(APickupBase* pb)
 		currPickup = pb;
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, pb->GetName());
 	}
+}
+
+void AAGPmultiplayerGameCharacter::MC_ActivateTrap_Implementation(AActor* button)
+{
+	ATrapButton* Button = Cast<ATrapButton>(button);
+	if (Button) 
+	{
+		Button->ActivateTrap();
+	}
+
+}
+
+void AAGPmultiplayerGameCharacter::ServerActivateTrap_Implementation(AActor* button)
+{
+	MC_ActivateTrap(button);
 }
 

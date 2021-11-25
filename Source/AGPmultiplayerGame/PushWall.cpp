@@ -42,13 +42,13 @@ void APushWall::UseTrap()
 	//FMath::VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f);
 	//SetActorLocation(FVector(GetActorLocation().X, VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f));
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
-	/*
+	
 	if (GetLocalRole() == ROLE_Authority) {
 		MC_UseTrap(currPos);  //update trap pos 
 	}
 	else
 		ServerUseTrap(currPos);
-		*/
+		
 }
 
 void APushWall::Tick(float DeltaTime)

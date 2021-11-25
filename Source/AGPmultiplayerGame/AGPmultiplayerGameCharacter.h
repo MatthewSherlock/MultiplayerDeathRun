@@ -166,5 +166,12 @@ public:
 	void UsePickup();
 	void GrabPickup(class APickupBase* pb);
 
+	UFUNCTION(NetMulticast, Reliable)
+		void MC_ActivateTrap(AActor* button);
+	void MC_ActivateTrap_Implementation(AActor* button);
+
+	UFUNCTION(Server, Reliable)
+		void ServerActivateTrap(AActor* button);
+	void ServerActivateTrap_Implementation(AActor* button);
 };
 
