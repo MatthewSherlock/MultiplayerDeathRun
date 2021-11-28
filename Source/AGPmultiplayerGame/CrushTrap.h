@@ -20,7 +20,7 @@ public:
 	void Tick(float DeltaTime);
 
 	UFUNCTION()
-		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+		virtual void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	UPROPERTY(EditDefaultsOnly, Category = HitEffects)
 		USoundBase* trapSound;
@@ -28,4 +28,5 @@ public:
 	FVector endLoc;
 
 	bool isMoving;
+	float damage;
 };

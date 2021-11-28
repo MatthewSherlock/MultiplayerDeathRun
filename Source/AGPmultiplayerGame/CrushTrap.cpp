@@ -17,6 +17,7 @@ ACrushTrap::ACrushTrap()
 {
 	instantKill = false;
 	isMoving = false;
+	damage = 100;
 }
 
 
@@ -61,12 +62,10 @@ void ACrushTrap::Tick(float DeltaTime)
 void ACrushTrap::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
+	AAGPmultiplayerGameGameMode* gm = Cast<AAGPmultiplayerGameGameMode>(GetWorld()->GetAuthGameMode());
 
 	if (chr)
 	{
-		if (instantKill)
-		{
-			chr->Destroy();
-		}
+		chr->health -= damage;
 	}
 }

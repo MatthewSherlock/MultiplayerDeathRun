@@ -12,7 +12,7 @@
 
 AJumpPickup::AJumpPickup()
 {
-	jumpAmount = 100.0f;
+	jumpAmount = 2.0f;
 }
 
 
@@ -26,7 +26,6 @@ void AJumpPickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
 	if (chr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "overlap");
 		chr->GrabPickup(this);
 
 		if (pickupSound)
@@ -41,12 +40,11 @@ void AJumpPickup::UsePickup()
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (chr)
 	{
-		FTimerHandle endEffect;
-		GetWorldTimerManager().SetTimer(endEffect, this, &AJumpPickup::PickupEnd, 2.0f, false, 5.0f);
-
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
 		stdJumpHeight = chr->GetCharacterMovement()->JumpZVelocity;
 		chr->GetCharacterMovement()->JumpZVelocity = chr->GetCharacterMovement()->JumpZVelocity + jumpAmount;
+		FTimerHandle endEffect;
+		GetWorldTimerManager().SetTimer(endEffect, this, &AJumpPickup::PickupEnd, 5.0f, false);
 	}
 }
 

@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "PickupSpawner.h"
 #include "PickupBase.h"
+#include "GoalArea.h"
 #include "AGPmultiplayerGameGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -22,11 +23,31 @@ public:
 
 	void SpawnPickups(APickupSpawner* pspawn);
 
+	int RandomNumInArray();
+
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<APickupSpawner*> spawner;
+		APickupSpawner* spawner;
+
+	UPROPERTY(EditDefaultsOnly, Category = Goal)
+		TSubclassOf<class AGoalArea> goalAreaClass;
 
 	UPROPERTY(EditDefaultsOnly)
 		TArray<TSubclassOf<class APickupBase>> pickupArray;
+
+	UFUNCTION() //UFUNCTION needed for timer!!!
+		void stopGame();
+
+	void gameOver(bool hasWon, int winID);
+	void gameOverFromLivesLost(bool hasLost, int lossID);
+
+
+	void chkForWin(AGoalArea* goal, int winID);
+	void chkForDeathLoss(bool hasLost, int lossID);
+
+	FTimerHandle gameTimer;
+	UPROPERTY(EditAnywhere)
+		float gameDuration;
+
 };
 
 

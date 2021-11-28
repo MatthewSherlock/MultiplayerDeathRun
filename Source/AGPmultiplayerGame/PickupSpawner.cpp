@@ -38,8 +38,6 @@ void APickupSpawner::Tick(float DeltaTime)
 
 void APickupSpawner::SpawnPickup(TSubclassOf<AActor> pickup)
 {
-	for (int i = 0; i < 3; i++)
-	{
 		FActorSpawnParameters spawnParams;
 		spawnParams.Owner = this;
 		spawnParams.Instigator = GetInstigator();
@@ -48,7 +46,5 @@ void APickupSpawner::SpawnPickup(TSubclassOf<AActor> pickup)
 		FVector spawnLoc = getRandomPtInVolume();
 		FRotator rot = FRotator::ZeroRotator;
 		AActor* a = GetWorld()->SpawnActor<AActor>(pickup, spawnLoc, rot, spawnParams);
-
-	}
 }
 

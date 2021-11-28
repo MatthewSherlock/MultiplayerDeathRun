@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "PushWall.h"
+#include "GoalArea.h"
+#include "AGPmultiplayerGameGameMode.h"
 #include "AGPmultiplayerGameCharacter.generated.h"
 
 class UInputComponent;
@@ -160,7 +162,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pickup)
 	float currScore;
 
-	bool hasWon;
 
 	void Interact();
 	void UsePickup();
@@ -173,5 +174,31 @@ public:
 	UFUNCTION(Server, Reliable)
 		void ServerActivateTrap(AActor* button);
 	void ServerActivateTrap_Implementation(AActor* button);
+
+	UFUNCTION(NetMulticast, Reliable)
+		void MC_GameOver(bool hasWon, int winID);
+	void MC_GameOver_Implementation(bool hasWon, int winID);
+
+	UFUNCTION(NetMulticast, Reliable)
+		void MC_GameOverNoLives(bool hasLost, int lossID);
+	void MC_GameOverNoLives_Implementation(bool hasLost, int lossID);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void gameOverBPImplemEvent(bool hasWon, int winID);
+	UFUNCTION(BlueprintImplementableEvent)
+		void gameOverNoLivesBPImplemEvent(bool hasLost, int LossID);
+	int GetPlayerID();
+	UFUNCTION(Server, Reliable, WithValidation)
+		void ServerUpdateGoal(AGoalArea* goal, int ID);
+	void ServerUpdateGoal_Implementation(AGoalArea* goal, int ID);
+	bool ServerUpdateGoal_Validate(AGoalArea* goal, int ID);
+	void updateGoal(AGoalArea* goal, int ID); //change attribute value on Server
+	void updateGoalArea(AGoalArea* goal, int ID); //called by client / server
+	virtual void Tick(float DeltaTime) override;
+
+	int maxLives;
+	int currLives;
+
+	FVector spawnLoc;
 };
 

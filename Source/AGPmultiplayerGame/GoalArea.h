@@ -23,9 +23,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
-		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-	
 	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* staticMesh;
+		class UBoxComponent* collisionComponent;
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* staticMeshComponent;
+	UFUNCTION()
+		void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	TArray<int>playerIDsAtGoal;
+	void addToPlayerIDsAtGoal(int ID);
+	int getNumOfPlayersAtGoal();
+
 };

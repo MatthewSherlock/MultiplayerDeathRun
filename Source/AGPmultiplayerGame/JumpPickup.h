@@ -17,6 +17,7 @@ public:
 	AJumpPickup();
 	virtual void BeginPlay() override;
 	virtual void UsePickup() override; //MUST define virtual func!
+	UFUNCTION()
 	void PickupEnd();
 	UFUNCTION()
 		void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

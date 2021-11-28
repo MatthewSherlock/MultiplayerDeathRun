@@ -15,6 +15,7 @@
 #include "Engine/World.h"
 #include "PickupBase.h"
 #include "TrapBase.h"
+#include "GameFramework/PlayerState.h"
 #include "TrapButton.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 
@@ -90,6 +91,8 @@ AAGPmultiplayerGameCharacter::AAGPmultiplayerGameCharacter()
 	//bUsingMotionControllers = true;
 
 	grabDistance = 500.0f;
+	health = 100.0f;
+	maxLives = 3;
 }
 
 void AAGPmultiplayerGameCharacter::BeginPlay()
@@ -111,6 +114,8 @@ void AAGPmultiplayerGameCharacter::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+	currLives = maxLives;
+	spawnLoc = GetActorLocation();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -367,3 +372,54 @@ void AAGPmultiplayerGameCharacter::ServerActivateTrap_Implementation(AActor* but
 	MC_ActivateTrap(button);
 }
 
+void AAGPmultiplayerGameCharacter::MC_GameOver_Implementation(bool hasWon, int winID) {
+	gameOverBPImplemEvent(hasWon, winID);
+}
+void AAGPmultiplayerGameCharacter::MC_GameOverNoLives_Implementation(bool hasLost, int lossID) {
+	gameOverNoLivesBPImplemEvent(hasLost, lossID);
+}
+
+void AAGPmultiplayerGameCharacter::ServerUpdateGoal_Implementation(AGoalArea* goal, int ID) {
+	updateGoal(goal, ID);
+}
+
+bool AAGPmultiplayerGameCharacter::ServerUpdateGoal_Validate(AGoalArea* goal, int ID) {
+	return true;
+}
+
+void AAGPmultiplayerGameCharacter::updateGoal(AGoalArea* goal, int ID) {
+	AAGPmultiplayerGameGameMode* gm = Cast<AAGPmultiplayerGameGameMode>(GetWorld()->GetAuthGameMode());
+	if (gm)  
+		gm->chkForWin(goal, ID);
+}
+
+void AAGPmultiplayerGameCharacter::updateGoalArea(AGoalArea* goal, int ID) {
+	if (GetLocalRole() == ROLE_Authority)
+		updateGoal(goal, ID);
+	else
+		ServerUpdateGoal(goal, ID);
+}
+
+int AAGPmultiplayerGameCharacter::GetPlayerID() {
+	APlayerState* ps = GetPlayerState(); 
+	return ps->GetPlayerId(); 
+}
+
+void AAGPmultiplayerGameCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (health <= 0) 
+	{ 
+		currLives -= 1;
+		SetActorLocation(spawnLoc);
+		health = 100.0f;
+	}
+	if (currLives <= 0)
+	{
+		AAGPmultiplayerGameGameMode* gm = Cast<AAGPmultiplayerGameGameMode>(GetWorld()->GetAuthGameMode());
+		if (gm) {
+
+			gm->chkForDeathLoss(true, GetPlayerID());
+		}
+	}
+}
