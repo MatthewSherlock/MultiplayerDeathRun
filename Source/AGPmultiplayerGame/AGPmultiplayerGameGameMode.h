@@ -23,7 +23,7 @@ public:
 
 	void SpawnPickups(APickupSpawner* pspawn);
 
-	int RandomNumInArray();
+	int RandomNumInArray(APickupSpawner* pspawn);
 
 	UPROPERTY(EditAnywhere)
 		APickupSpawner* spawner;
@@ -31,8 +31,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Goal)
 		TSubclassOf<class AGoalArea> goalAreaClass;
 
-	UPROPERTY(EditDefaultsOnly)
-		TArray<TSubclassOf<class APickupBase>> pickupArray;
 
 	UFUNCTION() //UFUNCTION needed for timer!!!
 		void stopGame();
@@ -43,11 +41,17 @@ public:
 
 	void chkForWin(AGoalArea* goal, int winID);
 	void chkForDeathLoss(bool hasLost, int lossID);
+	FTimerHandle secondsTimer;
+	void UpdateTimer();
 
 	FTimerHandle gameTimer;
+	
 	UPROPERTY(EditAnywhere)
 		float gameDuration;
 
+	void CalculateFinalScore();
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Score)
+	float totalScore;
 };
 
 

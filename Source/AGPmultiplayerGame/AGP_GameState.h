@@ -14,4 +14,9 @@ class AGPMULTIPLAYERGAME_API AAGP_GameState : public AGameStateBase
 {
 	GENERATED_BODY()
 	
+public:
+	AAGP_GameState();
+	UPROPERTY(VisibleAnywhere, Replicated, BlueprintReadWrite, Category = Timer)
+		float gameTime;
+		virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

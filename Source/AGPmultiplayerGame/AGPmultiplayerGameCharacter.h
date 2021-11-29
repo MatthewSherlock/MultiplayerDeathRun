@@ -22,27 +22,8 @@ class AAGPmultiplayerGameCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
-	USkeletalMeshComponent* Mesh1P;
-
-	/** Gun mesh: 1st person view (seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USkeletalMeshComponent* FP_Gun;
-
-	/** Location on gun mesh where projectiles should spawn. */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USceneComponent* FP_MuzzleLocation;
-
-	/** Gun mesh: VR view (attached to the VR controller directly, no arm, just the actual gun) */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USkeletalMeshComponent* VR_Gun;
-
-	/** Location on VR gun mesh where projectiles should spawn. */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-	USceneComponent* VR_MuzzleLocation;
-
 	/** First person camera */
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
@@ -97,10 +78,10 @@ public:
 protected:
 	
 	/** Fires a projectile. */
-	void OnFire();
+//	void OnFire();
 
 	/** Resets HMD orientation and position in VR. */
-	void OnResetVR();
+//	void OnResetVR();
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);
@@ -128,9 +109,9 @@ protected:
 		FVector Location;
 		bool bMoved;
 	};
-	void BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
-	void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
-	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
+	//void BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
+	//void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
+	//void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
 	TouchData	TouchItem;
 	
 protected:
@@ -144,11 +125,11 @@ protected:
 	 * @param	InputComponent	The input component pointer to bind controls to
 	 * @returns true if touch controls were enabled.
 	 */
-	bool EnableTouchscreenMovement(UInputComponent* InputComponent);
+	//bool EnableTouchscreenMovement(UInputComponent* InputComponent);
 
 public:
 	/** Returns Mesh1P subobject **/
-	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
+	//USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 

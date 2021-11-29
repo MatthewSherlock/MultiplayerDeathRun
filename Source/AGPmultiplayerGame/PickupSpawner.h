@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
+#include "PickupBase.h"
 #include "PickupSpawner.generated.h"
 
 UCLASS()
@@ -30,5 +30,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditDefaultsOnly)
+		TArray<TSubclassOf<class APickupBase>> pickupArray;
 
 };

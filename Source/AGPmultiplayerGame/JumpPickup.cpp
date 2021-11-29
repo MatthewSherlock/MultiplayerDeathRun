@@ -9,6 +9,8 @@
 #include "Kismet/GameplayStatics.h" //for radial dmg
 #include "Engine/Engine.h" //for log & debug msg
 #include "GameFramework/CharacterMovementComponent.h"
+#include "EngineUtils.h" //for ActorIterator
+#include "AGP_GameState.h" //for gameTime
 
 AJumpPickup::AJumpPickup()
 {
@@ -40,11 +42,10 @@ void AJumpPickup::UsePickup()
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (chr)
 	{
+		GetWorldTimerManager().SetTimer(endEffect, this, &AJumpPickup::PickupEnd, 5.0f, false);
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
 		stdJumpHeight = chr->GetCharacterMovement()->JumpZVelocity;
 		chr->GetCharacterMovement()->JumpZVelocity = chr->GetCharacterMovement()->JumpZVelocity + jumpAmount;
-		FTimerHandle endEffect;
-		GetWorldTimerManager().SetTimer(endEffect, this, &AJumpPickup::PickupEnd, 5.0f, false);
 	}
 }
 

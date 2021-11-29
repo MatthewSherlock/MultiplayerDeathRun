@@ -28,4 +28,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = HitEffects)
 		USoundBase* pickupSound;
+
+	FTimerHandle endEffect;
 };

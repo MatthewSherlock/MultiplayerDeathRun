@@ -24,17 +24,14 @@ AAGPmultiplayerGameGameMode::AAGPmultiplayerGameGameMode()
 
 void AAGPmultiplayerGameGameMode::PostLogin(APlayerController* newPC) {
 	 Super::PostLogin(newPC);
-	 GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "Post Login");
 
 	AAGP_GameState* gs = GetGameState<AAGP_GameState>();
 	if (gs && gs->PlayerArray.Num() == maxNumOfPlayers) {
-		UE_LOG(LogTemp, Warning, TEXT("PostLogin Num players: %d"), gs->PlayerArray.Num());
 		for (TActorIterator<APickupSpawner> ActorItr(GetWorld()); ActorItr; ++ActorItr) {
 			spawner = *ActorItr;
 			SpawnPickups(spawner);
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, spawner->GetName());
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "Post Login");
-			GetWorldTimerManager().SetTimer(gameTimer, this, &AAGPmultiplayerGameGameMode::stopGame, gameDuration, false);
+			GetWorldTimerManager().SetTimer(secondsTimer, this, &AAGPmultiplayerGameGameMode::UpdateTimer, 1.0f, true);
 		}
 	}
 	
@@ -46,14 +43,14 @@ void AAGPmultiplayerGameGameMode::SpawnPickups(APickupSpawner* pspawn)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "spawn pickups");
 
-			pspawn->SpawnPickup(pickupArray[RandomNumInArray()]);
+			pspawn->SpawnPickup(pspawn->pickupArray[RandomNumInArray(pspawn)]);
 		}
 	
 }
 
-int AAGPmultiplayerGameGameMode::RandomNumInArray()
+int AAGPmultiplayerGameGameMode::RandomNumInArray(APickupSpawner* pspawn)
 {
-	int randArrayNum = FMath::RandRange(0, pickupArray.Num() - 1);
+	int randArrayNum = FMath::RandRange(0, pspawn->pickupArray.Num() - 1);
 	return randArrayNum;
 }
 
@@ -66,6 +63,8 @@ void AAGPmultiplayerGameGameMode::gameOver(bool hasWon, int winID)
 {
 	AAGP_GameState* gs = GetGameState<AAGP_GameState>();  //get server character
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(gs->PlayerArray[0]->GetPawn());
+	CalculateFinalScore();
+	GetWorldTimerManager().PauseTimer(secondsTimer);
 	chr->MC_GameOver(hasWon, winID);
 }
 
@@ -73,6 +72,7 @@ void AAGPmultiplayerGameGameMode::gameOverFromLivesLost(bool hasLost, int lossID
 {
 	AAGP_GameState* gs = GetGameState<AAGP_GameState>();  //get server character
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(gs->PlayerArray[0]->GetPawn());
+	GetWorldTimerManager().PauseTimer(secondsTimer);
 	chr->MC_GameOverNoLives(hasLost, lossID);
 }
 
@@ -83,4 +83,18 @@ void AAGPmultiplayerGameGameMode::chkForWin(AGoalArea* goal, int winID)
 void AAGPmultiplayerGameGameMode::chkForDeathLoss(bool hasLost, int lossID)
 {
 	gameOverFromLivesLost(hasLost, lossID);
+}
+
+void AAGPmultiplayerGameGameMode::UpdateTimer()
+{
+	AAGP_GameState* gs = GetGameState<AAGP_GameState>();
+	gs->gameTime += 1.0f;	//incr time
+}
+
+void AAGPmultiplayerGameGameMode::CalculateFinalScore()
+{
+	AAGP_GameState* gs = GetGameState<AAGP_GameState>();
+	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(gs->PlayerArray[0]->GetPawn());
+
+	totalScore = (chr->currScore * (gs->gameTime / 10));
 }

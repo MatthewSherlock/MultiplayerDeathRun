@@ -34,11 +34,14 @@ AAGPmultiplayerGameCharacter::AAGPmultiplayerGameCharacter()
 	BaseLookUpRate = 45.f;
 
 	// Create a CameraComponent	
+	
+	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
-
+	
+	/*
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
 	Mesh1P->SetOnlyOwnerSee(true);
@@ -89,7 +92,7 @@ AAGPmultiplayerGameCharacter::AAGPmultiplayerGameCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
-
+	*/
 	grabDistance = 500.0f;
 	health = 100.0f;
 	maxLives = 3;
@@ -101,10 +104,10 @@ void AAGPmultiplayerGameCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
-	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	//FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 
 	// Show or hide the two versions of the gun based on whether or not we're using motion controllers.
-	if (bUsingMotionControllers)
+	/*if (bUsingMotionControllers)
 	{
 		VR_Gun->SetHiddenInGame(false, true);
 		Mesh1P->SetHiddenInGame(true, true);
@@ -114,6 +117,7 @@ void AAGPmultiplayerGameCharacter::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+	*/
 	currLives = maxLives;
 	spawnLoc = GetActorLocation();
 }
@@ -131,12 +135,12 @@ void AAGPmultiplayerGameCharacter::SetupPlayerInputComponent(class UInputCompone
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	// Bind fire event
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AAGPmultiplayerGameCharacter::OnFire);
+	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AAGPmultiplayerGameCharacter::OnFire);
 
 	// Enable touchscreen input
-	EnableTouchscreenMovement(PlayerInputComponent);
+	//EnableTouchscreenMovement(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AAGPmultiplayerGameCharacter::OnResetVR);
+	//PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AAGPmultiplayerGameCharacter::OnResetVR);
 
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AAGPmultiplayerGameCharacter::MoveForward);
@@ -154,7 +158,7 @@ void AAGPmultiplayerGameCharacter::SetupPlayerInputComponent(class UInputCompone
 	PlayerInputComponent->BindAction("UsePickup", IE_Pressed, this, &AAGPmultiplayerGameCharacter::UsePickup);
 
 }
-
+/*
 void AAGPmultiplayerGameCharacter::OnFire()
 {
 	// try and fire a projectile
@@ -270,7 +274,7 @@ void AAGPmultiplayerGameCharacter::EndTouch(const ETouchIndex::Type FingerIndex,
 //		}
 //	}
 //}
-
+*/
 void AAGPmultiplayerGameCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
@@ -300,7 +304,7 @@ void AAGPmultiplayerGameCharacter::LookUpAtRate(float Rate)
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
-
+/*
 bool AAGPmultiplayerGameCharacter::EnableTouchscreenMovement(class UInputComponent* PlayerInputComponent)
 {
 	if (FPlatformMisc::SupportsTouchInput() || GetDefault<UInputSettings>()->bUseMouseForTouch)
@@ -315,7 +319,7 @@ bool AAGPmultiplayerGameCharacter::EnableTouchscreenMovement(class UInputCompone
 	
 	return false;
 }
-
+*/
 void AAGPmultiplayerGameCharacter::Interact()
 {
 	FVector startLoc = GetFirstPersonCameraComponent()->GetComponentLocation();
