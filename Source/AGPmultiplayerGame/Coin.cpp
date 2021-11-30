@@ -26,8 +26,8 @@ void ACoin::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 	if (chr)
 	{
 		chr->currScore = chr->currScore + pickupScore;
-		if (coinSound)
-			UGameplayStatics::PlaySoundAtLocation(this, coinSound, GetActorLocation());
+		if (pickupSound)
+			UGameplayStatics::PlaySoundAtLocation(this, pickupSound, GetActorLocation());
 
 		Destroy();
 	}

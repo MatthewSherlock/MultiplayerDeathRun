@@ -357,7 +357,6 @@ void AAGPmultiplayerGameCharacter::GrabPickup(APickupBase* pb)
 	if (!currPickup && pb)
 	{
 		currPickup = pb;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, pb->GetName());
 	}
 }
 

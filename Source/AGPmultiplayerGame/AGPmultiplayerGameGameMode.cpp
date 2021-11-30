@@ -13,8 +13,8 @@
 AAGPmultiplayerGameGameMode::AAGPmultiplayerGameGameMode()
 {
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/FirstPersonCPP/Blueprints/FirstPersonCharacter"));
-	DefaultPawnClass = PlayerPawnClassFinder.Class;
+	//static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/FirstPersonCPP/Blueprints/FirstPersonCharacter"));
+	//DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 	// use our custom HUD class
 	HUDClass = AAGPmultiplayerGameHUD::StaticClass();
@@ -30,7 +30,6 @@ void AAGPmultiplayerGameGameMode::PostLogin(APlayerController* newPC) {
 		for (TActorIterator<APickupSpawner> ActorItr(GetWorld()); ActorItr; ++ActorItr) {
 			spawner = *ActorItr;
 			SpawnPickups(spawner);
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, spawner->GetName());
 			GetWorldTimerManager().SetTimer(secondsTimer, this, &AAGPmultiplayerGameGameMode::UpdateTimer, 1.0f, true);
 		}
 	}
@@ -41,7 +40,6 @@ void AAGPmultiplayerGameGameMode::SpawnPickups(APickupSpawner* pspawn)
 {
 		if (pspawn)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "spawn pickups");
 
 			pspawn->SpawnPickup(pspawn->pickupArray[RandomNumInArray(pspawn)]);
 		}

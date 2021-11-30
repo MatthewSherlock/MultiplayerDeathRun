@@ -28,6 +28,10 @@ public:
 		UStaticMeshComponent* staticMesh;
 	UPROPERTY(EditAnywhere)
 		bool instantKill;
+	UPROPERTY(EditAnywhere)
+		float effectTime;
+	UPROPERTY(EditDefaultsOnly, Category = HitEffects)
+		USoundBase* pickupSound;
 
 	
 };

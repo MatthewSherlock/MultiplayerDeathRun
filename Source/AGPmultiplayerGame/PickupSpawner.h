@@ -31,7 +31,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<class APickupBase>> pickupArray;
 
 };

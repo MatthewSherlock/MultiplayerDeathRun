@@ -25,6 +25,4 @@ public:
 
 	float stdWalkSpeed;
 
-	UPROPERTY(EditDefaultsOnly, Category = HitEffects)
-		USoundBase* pickupSound;
 };

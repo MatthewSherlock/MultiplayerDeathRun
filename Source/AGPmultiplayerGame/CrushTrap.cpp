@@ -18,6 +18,7 @@ ACrushTrap::ACrushTrap()
 	instantKill = false;
 	isMoving = false;
 	damage = 100;
+	moveAmount = 0.0f;
 }
 
 
@@ -25,7 +26,7 @@ void ACrushTrap::BeginPlay()
 {
 	Super::BeginPlay();
 	staticMesh->OnComponentHit.AddDynamic(this, &ACrushTrap::OnHit);
-	endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y), GetActorLocation().Z - 300);
+	endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y), GetActorLocation().Z - moveAmount);
 
 }
 

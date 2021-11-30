@@ -24,7 +24,6 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		float pickupScore;
-	UPROPERTY(EditDefaultsOnly, Category = HitEffects)
-		USoundBase* coinSound;
+
 
 };

@@ -29,4 +29,6 @@ public:
 
 	bool isMoving;
 	float damage;
+	UPROPERTY(EditAnywhere)
+		float moveAmount;
 };
