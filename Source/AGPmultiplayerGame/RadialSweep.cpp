@@ -49,7 +49,7 @@ void ARadialSweep::UseTrap()
 void ARadialSweep::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	FRotator newRotation = FRotator(0.0f, moveAmount, 0.0f);
+	FRotator newRotation = FRotator(0.0f, -moveAmount, 0.0f);
 	AddActorLocalRotation(newRotation);
 
 }
