@@ -223,4 +223,5 @@ void AAGPmultiplayerGameCharacter::Tick(float DeltaTime)
 			gm->chkForDeathLoss(true, GetPlayerID());
 		}
 	}
+
 }

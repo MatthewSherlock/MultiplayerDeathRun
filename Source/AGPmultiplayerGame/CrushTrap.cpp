@@ -25,7 +25,7 @@ ACrushTrap::ACrushTrap()
 void ACrushTrap::BeginPlay()
 {
 	Super::BeginPlay();
-	staticMesh->OnComponentHit.AddDynamic(this, &ACrushTrap::OnHit);
+	staticMesh->OnComponentBeginOverlap.AddDynamic(this, &ACrushTrap::OnBeginOverlap);
 	endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y), GetActorLocation().Z - moveAmount);
 
 }
@@ -33,7 +33,6 @@ void ACrushTrap::BeginPlay()
 
 void ACrushTrap::UseTrap()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "pushwall used");
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, this->GetName());
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
 
@@ -52,9 +51,8 @@ void ACrushTrap::Tick(float DeltaTime)
 
 	if (isMoving)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "moving");
 
-		SetActorLocation(FMath::VInterpConstantTo(GetActorLocation(), endLoc, DeltaTime, 1000.0f));
+		SetActorLocation(FMath::VInterpConstantTo(GetActorLocation(), endLoc, DeltaTime * 0.2f, 1000.0f));
 	}
 	if (GetActorLocation() == endLoc)
 		isMoving = false;
@@ -65,8 +63,25 @@ void ACrushTrap::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimit
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
 	AAGPmultiplayerGameGameMode* gm = Cast<AAGPmultiplayerGameGameMode>(GetWorld()->GetAuthGameMode());
 
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "crush hit");
+
 	if (chr)
 	{
 		chr->health -= damage;
+	}
+}
+
+void ACrushTrap::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
+	AAGPmultiplayerGameGameMode* gm = Cast<AAGPmultiplayerGameGameMode>(GetWorld()->GetAuthGameMode());
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "crush hit");
+
+	if (chr)
+	{
+		chr->health -= damage;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "Player hit");
+
 	}
 }
