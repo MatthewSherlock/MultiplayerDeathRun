@@ -29,6 +29,7 @@ void ATrapButton::Tick(float DeltaTime)
 
 void ATrapButton::ActivateTrap()
 {
-	trapActivated->UseTrap();
+	if(trapActivated != nullptr)
+		trapActivated->UseTrap();
 }
 

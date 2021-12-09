@@ -18,7 +18,8 @@ ATrapBase::ATrapBase()
 void ATrapBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	staticMesh->OnComponentBeginOverlap.AddDynamic(this, &ATrapBase::OnBeginOverlap);
+	staticMesh->OnComponentHit.AddDynamic(this, &ATrapBase::OnHit);
 }
 
 // Called every frame
@@ -28,3 +29,12 @@ void ATrapBase::Tick(float DeltaTime)
 
 }
 
+void ATrapBase::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+
+}
+
+void ATrapBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+
+}

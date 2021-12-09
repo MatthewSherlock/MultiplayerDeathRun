@@ -35,6 +35,6 @@ void ADeathFloor::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 
 	if (chr)
 	{
-		chr->health -= 101;
+		chr->RespawnPlayer();
 	}
 }

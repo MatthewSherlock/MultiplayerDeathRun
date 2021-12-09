@@ -25,7 +25,6 @@ ASweepTrap::ASweepTrap()
 void ASweepTrap::BeginPlay()
 {
 	Super::BeginPlay();
-	staticMesh->OnComponentHit.AddDynamic(this, &ASweepTrap::OnHit);
 	endLoc = FVector(GetActorLocation().X - moveAmount, GetActorLocation().Y, GetActorLocation().Z);
 
 }
@@ -33,16 +32,8 @@ void ASweepTrap::BeginPlay()
 
 void ASweepTrap::UseTrap()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "pushwall used");
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, this->GetName());
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
 
 	isMoving = true;
-	//FVector startLoc = GetActorLocation();
-	//FVector endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z);
-	//FMath::VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f);
-	//SetActorLocation(FVector(GetActorLocation().X, VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
 
 }
 
@@ -52,21 +43,25 @@ void ASweepTrap::Tick(float DeltaTime)
 
 	if (isMoving)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "moving");
 
-		SetActorLocation(FMath::VInterpConstantTo(GetActorLocation(), endLoc, DeltaTime, 1000.0f));
+		SetActorLocation(FMath::VInterpConstantTo(GetActorLocation(), endLoc, DeltaTime, movementSpeed));
 	}
 	if (GetActorLocation() == endLoc)
 		isMoving = false;
 }
 
-void ASweepTrap::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void ASweepTrap::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
 	AAGPmultiplayerGameGameMode* gm = Cast<AAGPmultiplayerGameGameMode>(GetWorld()->GetAuthGameMode());
 
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "crush hit");
+
 	if (chr)
 	{
-		chr->health -= damage;
+		if (instantKill)
+		{
+			chr->RespawnPlayer();
+		}
 	}
 }

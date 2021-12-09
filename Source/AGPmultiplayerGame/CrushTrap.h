@@ -19,8 +19,7 @@ public:
 	virtual void UseTrap() override; //MUST define virtual func!
 	void Tick(float DeltaTime);
 
-	UFUNCTION()
-		virtual void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+		virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = HitEffects)
 		USoundBase* trapSound;
@@ -31,6 +30,4 @@ public:
 	float damage;
 	UPROPERTY(EditAnywhere)
 		float moveAmount;
-	UFUNCTION()
-		void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

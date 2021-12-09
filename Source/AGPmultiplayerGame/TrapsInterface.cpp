@@ -14,3 +14,4 @@ void ITrapsInterface::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 {
 
 }
+

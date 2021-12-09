@@ -19,7 +19,6 @@ public:
 	virtual void UseTrap() override; //MUST define virtual func!
 	void Tick(float DeltaTime);
 
-	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	UPROPERTY(EditDefaultsOnly, Category = HitEffects)
