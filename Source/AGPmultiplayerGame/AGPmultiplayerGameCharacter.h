@@ -178,7 +178,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	void RespawnPlayer();
 	int maxLives;
-	int currLives;
+	UPROPERTY(BlueprintReadWrite)
+		int currLives;
 
 	FVector spawnLoc;
 };

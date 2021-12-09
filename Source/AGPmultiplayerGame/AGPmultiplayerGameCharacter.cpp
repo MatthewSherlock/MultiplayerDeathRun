@@ -144,7 +144,6 @@ void AAGPmultiplayerGameCharacter::UsePickup()
 {
 	if (currPickup != nullptr) {
 		currPickup->UsePickup();
-		currPickup = nullptr;
 	}
 
 
