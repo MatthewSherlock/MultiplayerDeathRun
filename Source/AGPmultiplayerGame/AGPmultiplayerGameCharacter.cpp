@@ -144,7 +144,6 @@ void AAGPmultiplayerGameCharacter::UsePickup()
 {
 	if (currPickup != nullptr) {
 		currPickup->UsePickup();
-		currPickup = nullptr;
 	}
 
 
@@ -209,11 +208,16 @@ int AAGPmultiplayerGameCharacter::GetPlayerID() {
 void AAGPmultiplayerGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (health <= 0) 
-	{ 
+
+
+}
+
+void AAGPmultiplayerGameCharacter::RespawnPlayer()
+{
+	if (currLives > 0)
+	{
 		currLives -= 1;
 		SetActorLocation(spawnLoc);
-		health = 100.0f;
 	}
 	if (currLives <= 0)
 	{

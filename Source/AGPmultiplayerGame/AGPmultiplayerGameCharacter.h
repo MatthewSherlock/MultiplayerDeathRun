@@ -176,9 +176,10 @@ public:
 	void updateGoal(AGoalArea* goal, int ID); //change attribute value on Server
 	void updateGoalArea(AGoalArea* goal, int ID); //called by client / server
 	virtual void Tick(float DeltaTime) override;
-
+	void RespawnPlayer();
 	int maxLives;
-	int currLives;
+	UPROPERTY(BlueprintReadWrite)
+		int currLives;
 
 	FVector spawnLoc;
 };

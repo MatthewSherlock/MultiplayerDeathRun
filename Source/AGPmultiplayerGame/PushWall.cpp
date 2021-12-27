@@ -22,7 +22,6 @@ APushWall::APushWall()
 void APushWall::BeginPlay()
 {
 	Super::BeginPlay();
-	staticMesh->OnComponentHit.AddDynamic(this, &APushWall::OnHit);
 	endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y + 1000), GetActorLocation().Z);
 
 }
@@ -30,19 +29,12 @@ void APushWall::BeginPlay()
 
 void APushWall::UseTrap()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "pushwall used");
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, this->GetName());
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
+
 
 	FVector currPos = GetActorLocation();
 
 	isMoving = true;
-	//FVector startLoc = GetActorLocation();
-	//FVector endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z);
-	//FMath::VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f);
-	//SetActorLocation(FVector(GetActorLocation().X, VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
-	
+
 	if (GetLocalRole() == ROLE_Authority) {
 		MC_UseTrap(currPos);  //update trap pos 
 	}
@@ -57,9 +49,7 @@ void APushWall::Tick(float DeltaTime)
 
 	if (isMoving)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "moving");
-
-		SetActorLocation(FMath::VInterpConstantTo(GetActorLocation(), endLoc, DeltaTime, 1000.0f));
+		SetActorLocation(FMath::VInterpConstantTo(GetActorLocation(), endLoc, DeltaTime, movementSpeed));
 	}
 	if (GetActorLocation() == endLoc)
 		isMoving = false;
@@ -71,6 +61,10 @@ void APushWall::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimiti
 
 	if (chr)
 	{
+		if (instantKill)
+		{
+			chr->RespawnPlayer();
+		}
 	}
 }
 

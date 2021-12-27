@@ -25,7 +25,6 @@ ARadialSweep::ARadialSweep()
 void ARadialSweep::BeginPlay()
 {
 	Super::BeginPlay();
-	staticMesh->OnComponentHit.AddDynamic(this, &ARadialSweep::OnHit);
 	endLoc = FVector(GetActorLocation().X - moveAmount, GetActorLocation().Y, GetActorLocation().Z);
 
 }
@@ -33,17 +32,6 @@ void ARadialSweep::BeginPlay()
 
 void ARadialSweep::UseTrap()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "pushwall used");
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, this->GetName());
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
-
-	isMoving = true;
-	//FVector startLoc = GetActorLocation();
-	//FVector endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z);
-	//FMath::VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f);
-	//SetActorLocation(FVector(GetActorLocation().X, VInterpConstantTo(GetActorLocation(), FVector(GetActorLocation().X, (GetActorLocation().Y + 200), GetActorLocation().Z), 1.0f, 1.0f));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, GetActorLocation().ToString());
-
 }
 
 void ARadialSweep::Tick(float DeltaTime)
@@ -56,11 +44,6 @@ void ARadialSweep::Tick(float DeltaTime)
 
 void ARadialSweep::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
-	AAGPmultiplayerGameGameMode* gm = Cast<AAGPmultiplayerGameGameMode>(GetWorld()->GetAuthGameMode());
 
-	if (chr)
-	{
-	}
 }
 

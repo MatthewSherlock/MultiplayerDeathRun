@@ -94,5 +94,5 @@ void AAGPmultiplayerGameGameMode::CalculateFinalScore()
 	AAGP_GameState* gs = GetGameState<AAGP_GameState>();
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(gs->PlayerArray[0]->GetPawn());
 
-	totalScore = (chr->currScore * (gs->gameTime / 10));
+	totalScore = (chr->currScore + (100 - gs->gameTime));
 }

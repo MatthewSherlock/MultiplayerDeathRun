@@ -18,7 +18,8 @@ APickupBase::APickupBase()
 void APickupBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	staticMesh->OnComponentBeginOverlap.AddDynamic(this, &APickupBase::OnBeginOverlap);
+
 }
 
 // Called every frame
@@ -26,5 +27,9 @@ void APickupBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void APickupBase::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
 }
 

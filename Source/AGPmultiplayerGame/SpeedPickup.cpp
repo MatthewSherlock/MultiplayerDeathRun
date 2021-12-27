@@ -18,8 +18,8 @@ ASpeedPickup::ASpeedPickup()
 void ASpeedPickup::BeginPlay()
 {
 	Super::BeginPlay();
-	staticMesh->OnComponentBeginOverlap.AddDynamic(this, &ASpeedPickup::OnBeginOverlap);
 }
+
 void ASpeedPickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
@@ -33,6 +33,7 @@ void ASpeedPickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* O
 				UGameplayStatics::PlaySoundAtLocation(this, pickupSound, GetActorLocation());
 
 			SetActorHiddenInGame(true);
+			staticMesh->DestroyComponent();
 		}
 	}
 }
@@ -45,7 +46,6 @@ void ASpeedPickup::UsePickup()
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
 		stdWalkSpeed = chr->GetCharacterMovement()->MaxWalkSpeed;
 		chr->GetCharacterMovement()->MaxWalkSpeed = chr->GetCharacterMovement()->MaxWalkSpeed + speedAmount;
-		FTimerHandle endEffect;
 		GetWorldTimerManager().SetTimer(endEffect, this, &ASpeedPickup::PickupEnd, effectTime, false);
 	}
 }
@@ -56,6 +56,7 @@ void ASpeedPickup::PickupEnd()
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (chr)
 	{
+		chr->currPickup = nullptr;
 		chr->GetCharacterMovement()->MaxWalkSpeed = stdWalkSpeed;
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "TimerEnd");
 	}
