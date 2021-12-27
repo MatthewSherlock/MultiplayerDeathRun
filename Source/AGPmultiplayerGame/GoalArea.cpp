@@ -55,8 +55,7 @@ void AGoalArea::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Othe
 		}
 		chr->updateGoalArea(this, chr->GetPlayerID());
 	}
-	else
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Not ALL Colours have been collected!"));
+
 }
 
 void AGoalArea::addToPlayerIDsAtGoal(int ID)

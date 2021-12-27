@@ -33,6 +33,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		float movementSpeed;
 
+	UPROPERTY(EditAnywhere)
+		float moveAmount;
+
 	UFUNCTION()
 		virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 

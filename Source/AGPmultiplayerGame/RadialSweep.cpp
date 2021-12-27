@@ -25,7 +25,6 @@ ARadialSweep::ARadialSweep()
 void ARadialSweep::BeginPlay()
 {
 	Super::BeginPlay();
-	endLoc = FVector(GetActorLocation().X - moveAmount, GetActorLocation().Y, GetActorLocation().Z);
 
 }
 

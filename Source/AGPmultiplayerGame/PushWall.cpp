@@ -22,7 +22,7 @@ APushWall::APushWall()
 void APushWall::BeginPlay()
 {
 	Super::BeginPlay();
-	endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y + 1000), GetActorLocation().Z);
+	endLoc = FVector(GetActorLocation().X, (GetActorLocation().Y + moveAmount), GetActorLocation().Z);
 
 }
 
