@@ -44,10 +44,12 @@ void AJumpPickup::UsePickup()
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (chr)
 	{
-		GetWorldTimerManager().SetTimer(endEffect, this, &AJumpPickup::PickupEnd, effectTime, false);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
-		stdJumpHeight = chr->GetCharacterMovement()->JumpZVelocity;
-		chr->GetCharacterMovement()->JumpZVelocity = chr->GetCharacterMovement()->JumpZVelocity + jumpAmount;
+		if (!isUsed) {
+			GetWorldTimerManager().SetTimer(endEffect, this, &AJumpPickup::PickupEnd, effectTime, false);
+			stdJumpHeight = chr->GetCharacterMovement()->JumpZVelocity;
+			chr->GetCharacterMovement()->JumpZVelocity = chr->GetCharacterMovement()->JumpZVelocity + jumpAmount;
+			isUsed = true;
+		}
 	}
 }
 
@@ -59,6 +61,5 @@ void AJumpPickup::PickupEnd()
 	{
 		chr->currPickup = nullptr;
 		chr->GetCharacterMovement()->JumpZVelocity = stdJumpHeight;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "TimerEnd");
 	}
 }

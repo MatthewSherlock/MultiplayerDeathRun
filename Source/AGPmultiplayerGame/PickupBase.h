@@ -37,4 +37,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 		FTimerHandle endEffect;
+
+	bool isUsed;
 };

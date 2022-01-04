@@ -12,6 +12,7 @@ APickupBase::APickupBase()
 	staticMesh->SetSimulatePhysics(true);
 	RootComponent = staticMesh;
 
+	isUsed = false;
 }
 
 // Called when the game starts or when spawned

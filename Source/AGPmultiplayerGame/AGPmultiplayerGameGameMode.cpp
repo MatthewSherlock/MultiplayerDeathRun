@@ -40,7 +40,6 @@ void AAGPmultiplayerGameGameMode::SpawnPickups(APickupSpawner* pspawn)
 {
 		if (pspawn)
 		{
-
 			pspawn->SpawnPickup(pspawn->pickupArray[RandomNumInArray(pspawn)]);
 		}
 	

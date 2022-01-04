@@ -41,12 +41,14 @@ void ASpeedPickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* O
 void ASpeedPickup::UsePickup() 
 {
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	if (chr) 
-	{  
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "used");
-		stdWalkSpeed = chr->GetCharacterMovement()->MaxWalkSpeed;
-		chr->GetCharacterMovement()->MaxWalkSpeed = chr->GetCharacterMovement()->MaxWalkSpeed + speedAmount;
-		GetWorldTimerManager().SetTimer(endEffect, this, &ASpeedPickup::PickupEnd, effectTime, false);
+	if (chr)
+	{
+		if (!isUsed) {
+			stdWalkSpeed = chr->GetCharacterMovement()->MaxWalkSpeed;
+			chr->GetCharacterMovement()->MaxWalkSpeed = chr->GetCharacterMovement()->MaxWalkSpeed + speedAmount;
+			GetWorldTimerManager().SetTimer(endEffect, this, &ASpeedPickup::PickupEnd, effectTime, false);
+			isUsed = true;
+		}
 	}
 }
 
@@ -58,6 +60,5 @@ void ASpeedPickup::PickupEnd()
 	{
 		chr->currPickup = nullptr;
 		chr->GetCharacterMovement()->MaxWalkSpeed = stdWalkSpeed;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "TimerEnd");
 	}
 }

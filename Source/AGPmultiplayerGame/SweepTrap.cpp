@@ -55,7 +55,6 @@ void ASweepTrap::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
 	AAGPmultiplayerGameCharacter* chr = Cast<AAGPmultiplayerGameCharacter>(OtherActor);
 	AAGPmultiplayerGameGameMode* gm = Cast<AAGPmultiplayerGameGameMode>(GetWorld()->GetAuthGameMode());
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "crush hit");
 
 	if (chr)
 	{
